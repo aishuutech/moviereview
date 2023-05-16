@@ -1,0 +1,80 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Movie {
+  id: Int!
+  movieName: String!
+  description: String!
+  directorName: String!
+  releaseDate: DateTime!
+  review: Review
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Review {
+  id: Int!
+  user: User
+  movie: Movie
+  rating: Int!
+  comment: String!
+}
+
+type User {
+  id: Int!
+  userName: String!
+  emailId: String!
+  password: String!
+  review: Review
+}
+
+type LoginResponse {
+  accessToken: String!
+  user: User!
+}
+
+type Query {
+  getUser(id: Float!): User!
+  getReview(id: Float!): Review!
+}
+
+type Mutation {
+  signUp(userDto: UserDto!): User!
+  createReview(reviewDto: ReviewDto!): Review!
+  createMovie(movieDto: MovieDto!): Movie!
+  login(loginDto: LoginDto!): LoginResponse!
+}
+
+input UserDto {
+  id: Int
+  userName: String!
+  emailId: String!
+  password: String!
+  review: [ReviewDto!] = null
+}
+
+input ReviewDto {
+  id: Int
+  user: UserDto
+  movie: MovieDto
+  rating: Int!
+  comment: String!
+}
+
+input MovieDto {
+  id: Int
+  movieName: String!
+  description: String!
+  directorName: String!
+  releaseDate: DateTime!
+  review: ReviewDto
+}
+
+input LoginDto {
+  emailId: String!
+  password: String!
+}

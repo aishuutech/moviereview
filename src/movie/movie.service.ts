@@ -33,8 +33,8 @@ export class MovieService {
     async findAll(pagainationParamsDto : PaginationParamsDto) : Promise<Movie[]> {
         const {skip, take} = pagainationParamsDto;
         return await this.prismaService.movie.findMany({
-            skip : skip*(take-1),
-            take : take
+            skip : take *(skip-1),
+            take : take,
         });
     }
 
@@ -63,7 +63,7 @@ export class MovieService {
     async search(keyword : string,movieName : string, paginationParamsDto : PaginationParamsDto) : Promise<Movie[]> {
         const {skip,take} = paginationParamsDto;
         return await this.prismaService.movie.findMany({
-            skip : skip * (take-1),
+            skip : take *(skip-1),
             take : take,
             where : {
                 OR:{

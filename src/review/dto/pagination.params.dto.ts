@@ -1,7 +1,7 @@
-import { ArgsType, Field, Int } from "@nestjs/graphql";
+import { InputType, Field, Int } from "@nestjs/graphql";
 import { Max, Min } from "class-validator";
 
-@ArgsType()
+@InputType()
 export class PaginationParamsDto {
     @Field(()=>Int, {defaultValue : 0})
     @Min(0)

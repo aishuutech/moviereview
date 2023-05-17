@@ -32,6 +32,10 @@ type User {
   review: Review
 }
 
+type OutputResponse {
+  output: String!
+}
+
 type LoginResponse {
   accessToken: String!
   user: User!
@@ -40,12 +44,26 @@ type LoginResponse {
 type Query {
   getUser(id: Float!): User!
   getReview(id: Float!): Review!
+  getReviewsByMovie(movieId: Float!, pagainationParamsDto: PaginationParamsDto!): [Review!]!
+  getMovie(id: Float!): Movie!
+  getMovies(paginationParamsDto: PaginationParamsDto!): [Movie!]!
+  searchMovie(search: String!, movieName: String!, paginationParamsDto: PaginationParamsDto!): [Movie!]!
+}
+
+input PaginationParamsDto {
+  skip: Int! = 0
+  take: Int!
 }
 
 type Mutation {
   signUp(userDto: UserDto!): User!
+  changePassword(changePasswordDto: ChangePasswordDto!): OutputResponse!
   createReview(reviewDto: ReviewDto!): Review!
+  deleteReview(id: Float!): Review!
+  updateReview(id: Float!, updateReviewDto: UpdateReviewDto!): Review!
   createMovie(movieDto: MovieDto!): Movie!
+  updateMovie(id: Float!, updateMovieDto: UpdateMovieDto!): Movie!
+  deleteMovie(id: Float!): Movie!
   login(loginDto: LoginDto!): LoginResponse!
 }
 
@@ -71,6 +89,29 @@ input MovieDto {
   description: String!
   directorName: String!
   releaseDate: DateTime!
+  review: ReviewDto
+}
+
+input ChangePasswordDto {
+  oldPassword: String!
+  newPassword: String!
+  confirmPassword: String!
+}
+
+input UpdateReviewDto {
+  id: Int
+  user: UserDto
+  movie: MovieDto
+  rating: Int
+  comment: String
+}
+
+input UpdateMovieDto {
+  id: Int
+  movieName: String
+  description: String
+  directorName: String
+  releaseDate: DateTime
   review: ReviewDto
 }
 

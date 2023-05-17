@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { ChangePasswordDto } from './dto/changePassword.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
+import { OutputResponse } from './dto/output.respobse.dto';
 
 @Injectable()
 export class UserService {
@@ -47,7 +48,7 @@ export class UserService {
         return user;
     }
 
-    async changePassword( changePasswordDto : ChangePasswordDto, emailId : string) : Promise<String> {
+    async changePassword( changePasswordDto : ChangePasswordDto, emailId : string) : Promise<OutputResponse> {
         if(changePasswordDto.oldPassword != changePasswordDto.newPassword) {
             if(changePasswordDto.newPassword === changePasswordDto.confirmPassword) {
                 const user = await this.findOneByEmail(emailId);
@@ -61,13 +62,19 @@ export class UserService {
                         password : password
                     }
                 });
-                return 'Password updated successfully!!';
+                return {
+                    output : 'Password updated successfully!!'
+                };
             }
             else {
-                return 'new password and confirm password is not same';
+                return {
+                    output : 'new password and confirm password is not same'
+                };
             }
         }
-        return 'old password and new password is same.. Please enter different password!!!';
+        return {
+            output : 'old password and new password is same.. Please enter different password!!!'
+        };
     }
 
     async update(id : number, updateUserDto : UpdateUserDto) : Promise<User> {

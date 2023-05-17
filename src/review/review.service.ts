@@ -49,7 +49,7 @@ export class ReviewService {
     async reviewsByMovie(movieId : number,paginationParamsDto : PaginationParamsDto) : Promise<Review[]> {
         const {skip, take} = paginationParamsDto;
         return await this.prismaService.review.findMany({
-            skip : skip *(take-1),
+            skip : take *(skip-1),
             take : take,
             where : {
                 movieId : movieId

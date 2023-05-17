@@ -5,6 +5,7 @@ import { UserDto } from './dto/user.dto';
 import { ChangePasswordDto } from './dto/changePassword.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { UnauthorizedException } from '@nestjs/common';
+import { OutputResponse } from './dto/output.respobse.dto';
 
 @Resolver(()=>User)
 export class UserResolver {
@@ -23,8 +24,8 @@ export class UserResolver {
         return await this.userService.findOneById(id);
     }
 
-    @Mutation(()=> String, {name : "changePassword"})
-    public async changePassword(@Args('changePasswordDto') changePasswordDto : ChangePasswordDto, @Context('req')req) : Promise<String> {
+    @Mutation(()=> OutputResponse, {name : "changePassword"})
+    public async changePassword(@Args('changePasswordDto') changePasswordDto : ChangePasswordDto, @Context('req')req) : Promise<OutputResponse> {
         const token = req.headers.authorization.replace('Bearer','');
         const resp = await this.authService.validateToken(token);
         if(resp.status === 401) {
